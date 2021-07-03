@@ -1,5 +1,6 @@
 import click
 from analysis import do_analysis
+from analysis.stages import evaluation
 from rendering import do_rendering
 from util.parse_cli_args import parse_time_unit
 
@@ -29,7 +30,7 @@ def cli():
 @click.option('-nw', '--nowhitespace', type=bool, is_flag=True)
 @click.option('-cc', '--combineconsecutive')
 #
-@click.option('-al', '--algorithm', prompt="Coupling algorithm")
+@click.option('-al', '--algorithm', prompt=f'Coupling algorithm, one of {evaluation.algorithms}')
 @click.option('-df', '--handledeletedfiles',
               type=click.Choice(['keep', 'discard', 'reuse'], case_sensitive=True), default='discard')
 @click.option('-o', '--output', type=click.Path(dir_okay=False, writable=True), prompt="Output file path")
