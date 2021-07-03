@@ -23,6 +23,6 @@ class CouplingCommit:
     self.committer = git_commit.committer
     self.committer_date = git_commit.committer_date
     self.merge = git_commit.merge
-    self.all_modifications = git_commit.modifications
+    self.all_modifications = git_commit.modified_files
     self.ignored = False
     self.modifications_buckets: List[ModificationsBucket] = [ModificationsBucket(self.all_modifications)]
