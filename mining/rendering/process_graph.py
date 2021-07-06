@@ -5,7 +5,7 @@ import re
 def process_graph(cli_args, graph, metadata):
   (digraph, min_weight, max_weight, min_value, max_value) = metadata
 
-  if cli_args['weightpercent']:
+  if cli_args.get('weightpercent'):
     percent = min(100, max(0, cli_args['weightpercent']))
     number_of_edges = math.floor((percent / 100) * len(graph['edges']))
     all_weights = sorted([edge['weight'] for edge in graph['edges']])
@@ -18,13 +18,13 @@ def process_graph(cli_args, graph, metadata):
 
 
 def keep_node(cli_args, graph, node):
-  if cli_args['filetype']:
+  if cli_args.get('filetype'):
     if not node_file_type(node['id']) in cli_args['filetype']:
       return False
-  if cli_args['minvalue']:
+  if cli_args.get('minvalue'):
     if node['value'] < cli_args['minvalue']:
       return False
-  if cli_args['minweight'] and not cli_args['inspectfile']:
+  if cli_args.get('minweight') and not cli_args.get('inspectfile'):
     try:
       next((
           edge for edge in graph['edges'] if (
@@ -32,7 +32,7 @@ def keep_node(cli_args, graph, node):
               edge['end'] == node['id'] and edge['weight'] >= cli_args['minweight'])))
     except StopIteration:
       return False
-  if cli_args['inspectfile']:
+  if cli_args.get('inspectfile'):
     if node_is_inspected(node['id'], cli_args):
       return True
     try:
@@ -46,7 +46,7 @@ def keep_node(cli_args, graph, node):
 
 
 def keep_edge(cli_args, graph, edge):
-  if cli_args['minweight'] and edge['weight'] < cli_args['minweight']:
+  if cli_args.get('minweight') and edge['weight'] < cli_args['minweight']:
     return False
 
   try:
