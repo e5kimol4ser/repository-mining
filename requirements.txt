@@ -1,4 +1,4 @@
-pydriller
+pydriller>=2.0,<3.0
 click
 tqdm
 networkx

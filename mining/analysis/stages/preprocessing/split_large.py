@@ -14,13 +14,13 @@ def process_commit(cli_args, commit: CouplingCommit):
   # print("before: -----------------------------")
   # [print(f"\n{x}\n") for x in commit.modifications_buckets]
   commit.modifications_buckets = [
-      ModificationsBucket(mods) for mods in split_path_hierarchie(
+      ModificationsBucket(mods) for mods in split_path_hierarchy(
           commit.all_modifications, cli_args['largethreshold'], cli_args['nolarge'])]
   # print("after: ------------------------------")
   # [print(f"\n{x}\n") for x in commit.modifications_buckets]
 
 
-def split_path_hierarchie(modifications: List[pydriller.domain.commit.Modification], threshold, filterLarge, depth=0):
+def split_path_hierarchy(modifications: List[pydriller.domain.commit.ModifiedFile], threshold, filterLarge, depth=0):
   if len(modifications) < threshold:
     return [modifications]
 
@@ -39,7 +39,7 @@ def split_path_hierarchie(modifications: List[pydriller.domain.commit.Modificati
       top_level_modifications.append(modification)
 
   for modifications_bucket in modifications_buckets:
-    return_buckets.extend(split_path_hierarchie(modifications_bucket, threshold, filterLarge, depth + 1))
+    return_buckets.extend(split_path_hierarchy(modifications_bucket, threshold, filterLarge, depth + 1))
 
   if not (filterLarge and len(top_level_modifications) >= threshold):
     return_buckets.append(top_level_modifications)
